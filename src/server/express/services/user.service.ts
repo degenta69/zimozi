@@ -32,7 +32,7 @@ export const getUsers = async () => {
   console.log("Getting all users...");
   const snapshot = await usersCollection.get();
   console.log(`Found ${snapshot.size} users.`);
-  const users = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  const users = snapshot.docs.map((doc) => ({ uid: doc.id, ...doc.data() }));
   console.log("Returning users:");
   console.log(users);
   return users;

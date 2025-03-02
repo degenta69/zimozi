@@ -50,7 +50,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const decodedUser = await getLoggedInUser();
         // const firebaseUser = await auth.getUser(decodedUser.uid);
-        console.log(decodedUser);
+        // console.log(decodedUser);
         setUser(decodedUser.data);
       } catch (err: any) {
         console.error(err);

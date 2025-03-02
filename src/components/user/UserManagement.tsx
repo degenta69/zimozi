@@ -4,17 +4,18 @@ import { User } from "@/models/User";
 
 const AdminUserManagement = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const data = await getUsers();
+        console.log("Users fetched:", data);
         setUsers(data);
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
     fetchUsers();
@@ -33,11 +34,10 @@ const AdminUserManagement = () => {
     }
   };
 
-  if (loading) return <p>Loading users...</p>;
+  // if (loading) return <p>Loading users...</p>;
 
   return (
     <div className="p-4 max-w-xl mx-auto">
-      <h2 className="text-lg font-bold mb-4">Manage Users</h2>
       <div className="space-y-4">
         {users.map((user) => (
           <div key={user.uid} className="p-4 border rounded flex justify-between items-center">
