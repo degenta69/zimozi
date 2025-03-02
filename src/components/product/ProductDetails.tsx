@@ -1,7 +1,7 @@
 import { useCart } from "@/context/CartContext";
 import { Product } from "@/models/Product";
 import { StarIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function classNames(...classes: (string | boolean)[]) {
   return classes.filter(Boolean).join(" ");
@@ -10,6 +10,11 @@ function classNames(...classes: (string | boolean)[]) {
 export default function ProductPage({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
+
+  useEffect(() => {
+    setQuantity(1);
+  }, [product]);
+
   return (
     <div className="max-w-5xl mx-auto p-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

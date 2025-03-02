@@ -5,9 +5,18 @@ import { UserRoles } from "../types/enum";
 
 const usersCollection = db.collection("users");
 
-export const createUser = async (userData: { email: string; name: string }) => {
-  const docRef = await usersCollection.add({ ...userData, role: UserRoles.USER });
-  return { id: docRef.id, ...userData };
+export const createUser = async ({
+  uid,
+  ...userData
+}: {
+  uid?: string;
+  email: string;
+  name: string;
+}) => {
+  let docId = uid || db.collection("users").doc().id;
+  const userRef = usersCollection.doc(docId); // Explicitly setting the doc ID
+  await userRef.set(userData);
+  return (await userRef.get()).data();
 };
 
 export const getUserByEmail = async (email: string) => {

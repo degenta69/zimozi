@@ -95,20 +95,20 @@ export class ProductService {
 
   static async getProductsByIds(productIds: string[]) {
     try {
-      console.log("Fetching products by IDs:", productIds);
+      // console.log("Fetching products by IDs:", productIds);
       if (!productIds || productIds.length === 0) {
         console.log("No product IDs provided. Returning empty array.");
         return [];
       }
 
       const productRefs = await db.collection("products").where("__name__", "in", productIds).get();
-      console.log("Fetched products:", productRefs.docs);
+      // console.log("Fetched products:", productRefs.docs);
 
       const products = productRefs.docs.map((doc) => ({
         uid: doc.id,
         ...doc.data(),
       }));
-      console.log("Products:", products);
+      // console.log("Products:", products);
       return products;
     } catch (error) {
       console.error("Failed to fetch products by IDs:", error);

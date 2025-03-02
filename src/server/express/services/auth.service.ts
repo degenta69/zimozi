@@ -1,5 +1,6 @@
 import { auth, db } from "../config/firebase";
 import { UserRoles } from "../types/enum";
+import { createUser, getUserById } from "./user.service";
 
 export class AuthService {
   // Register User with Email & Password
@@ -94,6 +95,19 @@ export class AuthService {
     try {
       const decodedUser = await auth.verifyIdToken(idToken);
       const user = await auth.getUser(decodedUser.uid);
+      // console.log("User:", JSON.stringify(user));
+
+      // Check if user exists in Firestore
+      const userDoc = await getUserById(decodedUser.uid);
+      console.log("User document:", JSON.stringify(userDoc));
+      if (!userDoc) {
+        let data = await createUser({
+          uid: decodedUser.uid,
+          email: user.email!,
+          name: user.displayName!,
+        });
+        console.log("User created:", JSON.stringify(data));
+      }
 
       return { user, message: "Google login successful", token: idToken };
     } catch (error: any) {

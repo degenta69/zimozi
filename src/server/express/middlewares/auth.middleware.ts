@@ -30,7 +30,7 @@ export const authenticate = async (
   // console.log("Verifying token...");
   try {
     const decodedUser = await AuthService.verifyToken(token);
-    // console.log("Decoded user:", decodedUser);
+    console.log("Decoded user:", decodedUser);
 
     req.user = {
       uid: decodedUser.uid,

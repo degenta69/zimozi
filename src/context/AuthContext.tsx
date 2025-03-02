@@ -12,6 +12,7 @@ import { UserRoles } from "@/typings/enum";
 import {
   GoogleAuthProvider,
   onIdTokenChanged,
+  signInWithCustomToken,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
@@ -83,7 +84,9 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const handleRegister = async (email: string, password: string) => {
     try {
       const { data } = await registerUser(email, password, "User", UserRoles.USER);
-      localStorage.setItem("token", data.token);
+      const userCredential = await signInWithCustomToken(auth, data.token);
+      const idToken = await userCredential.user.getIdToken();
+      localStorage.setItem("token", idToken);
       console.log("User Registered:", data);
       await getUser();
       nav("/products");

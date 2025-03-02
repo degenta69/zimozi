@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { AuthService } from "../services/auth.service";
-import { getUserById, createUser } from "../services/user.service";
+import { getUserById } from "../services/user.service";
 import { authenticate } from "../middlewares/auth.middleware";
 
 const router = express.Router();
@@ -40,17 +40,8 @@ router.post("/google-login", async (req: Request, res: Response): Promise<any> =
     if (!idToken) {
       return res.status(400).json({ message: "Google ID token is required." });
     }
-    const user = await AuthService.loginWithGoogle(idToken);
-    const doesUserExist = await getUserById(user.user.uid);
-    console.log(user);
-    if (!doesUserExist) {
-      await createUser({
-        email: user.user.email!,
-        name: user.user.displayName!,
-      });
-      // await CreateUserController({ ...req, ...user.user }, res);
-    }
-    res.json(user);
+    const googleResult = await AuthService.loginWithGoogle(idToken);
+    res.json(googleResult);
   } catch (error: any) {
     res.status(401).json({ message: error.message });
   }
@@ -59,6 +50,7 @@ router.post("/google-login", async (req: Request, res: Response): Promise<any> =
 // Get Authenticated User Details
 router.get("/me", authenticate, async (req: any, res) => {
   try {
+    console.log(req.user);
     const user = await getUserById(req.user.uid);
     res.json(user);
   } catch (error: any) {
