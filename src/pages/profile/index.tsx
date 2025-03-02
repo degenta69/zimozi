@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
@@ -9,8 +9,8 @@ export default function ProfilePage() {
   const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
-    name: user?.displayName || "",
-    email: user?.email || "",
+    name: "",
+    email: "",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +24,13 @@ export default function ProfilePage() {
     await updateUser(user?.uid!, profileData);
     console.log("Profile saved:", profileData);
   };
+
+  useEffect(() => {
+    setProfileData({
+      name: user?.name || "",
+      email: user?.email || "",
+    });
+  }, [user, isEditing]);
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md">

@@ -69,12 +69,15 @@ export default function AdminProductList() {
               <div className="absolute top-2 right-2 hidden group-hover:flex items-center gap-2">
                 <button
                   className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
-                  onClick={() => handleDelete(product.uid)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(product.uid);
+                  }}
                 >
                   <TrashIcon className="w-5 h-5" />
                 </button>
               </div>
-              <div className="cursor-pointer">
+              <div className="cursor-pointer" onClick={(e) => e.stopPropagation()}>
                 <ProductCard product={product} onClick={() => handleEdit(product)} />
               </div>
             </div>

@@ -54,9 +54,12 @@ export const DeleteUserController = async (req: Request, res: Response): Promise
 
 export const GetUsersController = async (req: Request, res: Response): Promise<any> => {
   try {
+    console.log("Getting users...");
     const users = await getUsers();
+    console.log("Found users:", users);
     res.json(users);
   } catch (error: any) {
+    console.error("Error getting users:", error);
     res.status(500).json({ error: error.message });
   }
 };
