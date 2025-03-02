@@ -50,21 +50,21 @@ You can access the deployed version of this application at [this hosted link](ht
 - React 19 (Next.js/Vite)
 - TypeScript
 - TailwindCSS
-- React Query / Axios
-- Redux / Zustand / Context API
+- Axios
+- Context API
 
 ### **Backend**
 
 - Node.js (Express)
 - TypeScript
 - Firebase Admin SDK
-- Firestore / PostgreSQL
+- Firestore
 
 ### **Authentication & Deployment**
 
 - Firebase Authentication (Email/Google Sign-In)
-- Firebase Functions (Backend)
-- Vercel / Netlify / Firebase Hosting (Frontend)
+- Renderer (Backend)
+- Firebase Hosting (Frontend)
 
 ---
 
@@ -74,13 +74,13 @@ You can access the deployed version of this application at [this hosted link](ht
 
 - Node.js (v18 or later)
 - Firebase CLI (for deployment)
-- PostgreSQL (if using relational DB instead of Firestore)
+- Firestore
 
 ### Installation
 
 ```sh
-git clone https://github.com/yourusername/your-repo.git
-cd your-repo
+git clone https://github.com/degenta69/zimozi.git
+cd zimozi
 npm install
 ```
 
@@ -89,9 +89,17 @@ npm install
 Create a `.env` file in the root directory and add the required values:
 
 ```env
-VITE_API_BASE_URL_LOCAL=http://localhost:9001
-VITE_API_BASE_URL_LIVE=https://your-backend-url.com
-VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_API_BASE_URL_LOCAL = http://localhost:9001
+VITE_API_BASE_URL_LIVE = https://zimozi.onrender.com
+
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_MEASUREMENT_ID=
+VITE_FIREBASE_SERVICE_ACCOUNT=
 ```
 
 ---
@@ -125,12 +133,6 @@ This starts the Express server on `http://localhost:9001`.
 
 ## Deployment
 
-### **Backend (Firebase Functions)**
-
-```sh
-firebase deploy --only functions
-```
-
 ### **Frontend (Vercel/Firebase Hosting)**
 
 ```sh
@@ -141,33 +143,30 @@ npm run vite:deploy
 
 ## Architecture Overview
 
-### **1. Authentication**
+### 1. Authentication & Authorization
 
-- Uses Firebase Authentication (Email/Google Sign-In).
-- Session persistence enabled for better UX.
+- Firebase Authentication is used for user login via Email/Google.
+- Role-Based Access Control (RBAC) is implemented using Firebase Admin SDK, allowing admins to manage products while regular users can only browse and purchase.
 
-### **2. Role-Based Access Control (RBAC)**
+### 2. Backend Architecture (Node.js + Express)
 
-- Admin users can manage products, orders, and users.
-- Regular users can browse products, add to cart, and place orders.
+- **Modular Approach:** The backend follows a clean separation of concerns:
+  - **Controllers:** Handle request validation and responses.
+  - **Services:** Contain business logic and interact with the database.
+  - **Middlewares:** Used for authentication and role-based access control.
+- **Database:** Firestore stores users, products, carts, and orders.
 
-### **3. Backend (Express API)**
+### 3. Frontend Architecture (React + Vite)
 
-- Modular structure with controllers, services, and middlewares.
-- Uses Firebase Admin SDK for authentication and Firestore/PostgreSQL for data storage.
-- API follows RESTful conventions.
+- **Separation of Concerns:**
+  - **Client Layer (React Components):** Manages UI and user interactions.
+  - **API Services Layer:** Separates API calls from UI logic, ensuring maintainability.
+  - **API Consumption Layer:** Centralizes request handling with error handling and caching (Axios).
+- **State Management:** Context API is used to manage global states efficiently.
 
-### **4. Frontend (React + Vite/Next.js)**
+### 4. Deployment
 
-- Component-based design for reusability.
-- Uses Zustand/Context API for state management.
-- Optimized for performance with lazy loading and React Query.
-
-### **5. Database Choices**
-
-- Firestore (NoSQL, serverless, real-time sync) or PostgreSQL (relational, structured data).
-- Database choice depends on use case.
+- Backend is deployed on **Renderer**
+- Frontend is hosted on **Firebase Hosting** for seamless deployment.
 
 ---
-
-This should provide all the necessary details for setting up, running, and submitting the project. Let me know if any refinements are needed!

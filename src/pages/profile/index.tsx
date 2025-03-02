@@ -4,6 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import InputComponent from "@/components/ui/Input";
 import { updateUser } from "@/client-api-service/user.service";
+import { Navigate } from "react-router";
 
 export default function ProfilePage() {
   const { user } = useAuth();
@@ -31,6 +32,10 @@ export default function ProfilePage() {
       email: user?.email || "",
     });
   }, [user, isEditing]);
+
+  if (!user) {
+    return <Navigate to={"/login"} />;
+  }
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
