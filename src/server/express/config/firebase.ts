@@ -5,7 +5,9 @@ var admin = require("firebase-admin");
 import { getAuth as getAdminAuth } from "firebase-admin/auth";
 // import { getAuth as getFirebaseAuth } from "firebase/auth";
 
-var serviceAccount = process.env.VITE_FIREBASE_SERVICE_ACCOUNT;
+var serviceAccount = process.env.VITE_FIREBASE_SERVICE_ACCOUNT
+  ? JSON.parse(process.env.VITE_FIREBASE_SERVICE_ACCOUNT)
+  : {};
 
 // Initialize Firebase (replace with your config)
 // Firebase Config (From Firebase Console)
