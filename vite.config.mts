@@ -9,6 +9,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   root: "./src",
   envDir: "../",
+  base: "/",
   plugins: [
     react(),
     eslint(),

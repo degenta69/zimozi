@@ -5,7 +5,7 @@ import { createProduct } from "@/client-api-service/product.service";
 import { Product } from "@/models/Product";
 import Dropdown from "@/components/ui/Dropdown";
 import InputComponent from "@/components/ui/Input";
-import { UserRoles } from "@/server/express/types/enum";
+import { UserRoles } from "@/typings/enum";
 
 const category = ["All", "electronics", "men's clothing", "women's clothing", "jewelery"].map(
   (category) => ({ label: category, value: category })

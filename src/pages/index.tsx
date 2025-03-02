@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
-import { UserRoles } from "@/server/express/types/enum";
+import { UserRoles } from "@/typings/enum";
 
 export default function AdminPanel() {
   const { user } = useAuth();

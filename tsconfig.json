@@ -34,5 +34,5 @@
     // "allowUnreachableCode": true,                     /* Disable error reporting for unreachable code. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "functions/src/restApi.ts", "functions/src/server.ts"]
 }

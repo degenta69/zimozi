@@ -6,7 +6,7 @@ import {
   verifyUserToken,
 } from "@/client-api-service/auth.service";
 import { auth } from "@/firebase-client-config";
-import { UserRoles } from "@/server/express/types/enum";
+import { UserRoles } from "@/typings/enum";
 import {
   GoogleAuthProvider,
   onIdTokenChanged,

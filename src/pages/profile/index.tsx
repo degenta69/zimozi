@@ -3,6 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import InputComponent from "@/components/ui/Input";
+import { updateUser } from "@/client-api-service/user.service";
 
 export default function ProfilePage() {
   const { user } = useAuth();
@@ -17,9 +18,11 @@ export default function ProfilePage() {
     setProfileData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const saveProfile = () => {
+  const saveProfile = async () => {
     // Implement save logic, e.g., API call to update user profile
     setIsEditing(false);
+    await updateUser(user?.uid!, profileData);
+    console.log("Profile saved:", profileData);
   };
 
   return (

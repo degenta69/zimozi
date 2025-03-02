@@ -2,12 +2,12 @@ import dotenv from "dotenv";
 dotenv.config();
 import { createServer } from "http";
 import app from "./restApi.ts";
-import { commonExample } from "@/utils/utils.ts";
+// import { commonExample } from "@/utils/utils.ts";
 // import { createWebSocketServer } from "path/to/websocket";
 
 // Now you can use 'db' to interact with Firestore
 
-commonExample();
+// commonExample();
 
 const server = createServer();
 
