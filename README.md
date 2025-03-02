@@ -13,6 +13,7 @@ You can access the deployed version of this application at [this hosted link](ht
 - [API Testing](#api-testing)
 - [Deployment](#deployment)
 - [Architecture Overview](#architecture-overview)
+- [Postman API Collection](https://compliance-management.postman.co/workspace/Compliance-Management-Workspac~dc2b7b45-7996-4de3-8413-39e6bf0d81e1/collection/21154424-6c1c6ea6-d68d-478d-ac66-df8a41e4536a?action=share&creator=21154424)
 
 ---
 

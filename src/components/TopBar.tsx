@@ -90,21 +90,52 @@ export default function TopBar() {
                     )}
                   </MenuButton>
                   <MenuItems
-                    className={`absolute ${!user ? "hidden" : "block"} right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5`}
+                    className={`absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5`}
                   >
-                    <MenuItem>
-                      {({ active }) => (
-                        <button
-                          onClick={handleLogout}
-                          className={classNames(
-                            active ? "bg-gray-100" : "",
-                            "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                    {user ? (
+                      <>
+                        <MenuItem>
+                          {({ active }) => (
+                            <button
+                              onClick={() => nav("/profile")}
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Profile
+                            </button>
                           )}
-                        >
-                          Sign out
-                        </button>
-                      )}
-                    </MenuItem>
+                        </MenuItem>
+                        <MenuItem>
+                          {({ active }) => (
+                            <button
+                              onClick={handleLogout}
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Sign out
+                            </button>
+                          )}
+                        </MenuItem>
+                      </>
+                    ) : (
+                      <MenuItem>
+                        {({ active }) => (
+                          <button
+                            onClick={() => nav("/login")}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                            )}
+                          >
+                            Sign in
+                          </button>
+                        )}
+                      </MenuItem>
+                    )}
                   </MenuItems>
                 </Menu>
               </div>
