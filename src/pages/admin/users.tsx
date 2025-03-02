@@ -8,7 +8,7 @@ export default function AdminUsersPage() {
   const nav = useNavigate();
 
   useEffect(() => {
-    if (user && user.role !== "ADMIN") {
+    if (!user || user.role !== "ADMIN") {
       nav("/");
     }
   }, [user, window.location.pathname]);

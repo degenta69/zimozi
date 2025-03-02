@@ -9,6 +9,7 @@
     "start": "node ./.local/express/dist/api.js",
     "vite:build": "vite build --emptyOutDir",
     "vite:dev": "vite",
+    "vite:deploy": "npm run vite:build && firebase deploy --only hosting",
     "vite:dev:wait": "wait-on http://localhost:9001/api/v1/health && vite",
     "api:build": "node esbuild.mjs",
     "api:build:watch": "npm run api:build -- --watch",

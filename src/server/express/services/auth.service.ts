@@ -57,7 +57,7 @@ export class AuthService {
       return {
         uid: userRecord.uid,
         email: userRecord.email,
-        displayName: userRecord.displayName,
+        name: userRecord.displayName,
         role: (userRecord.customClaims?.role as UserRoles) || UserRoles.USER,
       };
     } catch (error) {
