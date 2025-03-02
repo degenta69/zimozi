@@ -13,7 +13,7 @@ export default function Login() {
 
   useEffect(() => {
     if (user) {
-      nav("/");
+      nav("/profile");
     }
   }, [user]);
 

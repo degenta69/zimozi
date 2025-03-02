@@ -8,8 +8,7 @@ export const useProtectHook = (user: any) => {
   useEffect(() => {
     if (!user) {
       navigate("/login");
-    }
-    if (user.role !== UserRoles.ADMIN) {
+    } else if (user.role !== UserRoles.ADMIN) {
       navigate("/profile");
     }
   }, [user, navigate]);
