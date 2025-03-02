@@ -3,6 +3,7 @@ import { useRoutes } from "react-router-dom";
 import routes from "~react-pages";
 import TopBar from "./components/TopBar";
 import Cart from "./components/Cart";
+import { SkeletonComp } from "./components/Skeleton";
 // import { AuthProvider } from "./context/AuthContext";
 // import ProtectedRoute from "./components/ProtectedRoute";
 // import OrdersPage from "./pages/orders";
@@ -14,7 +15,7 @@ function App(): JSX.Element {
     <div className="min-h-full">
       <TopBar />
       <Cart />
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<SkeletonComp />}>
         {useRoutes([
           ...routes, // Existing routes
           // {

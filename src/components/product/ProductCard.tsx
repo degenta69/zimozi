@@ -18,7 +18,6 @@ const ProductCard = ({ product, onClick }: { product: Product; onClick?: (e: any
         <div>
           <h3 className="text-sm text-gray-700">
             <a onClick={onClick ? onClick : openDetail} className="font-medium text-gray-900">
-              {/* Extend touch target to entire panel */}
               <span aria-hidden="true" className="absolute inset-0" />
               {product.title}
             </a>

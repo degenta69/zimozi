@@ -6,9 +6,11 @@ import { getProductsByIds } from "@/client-api-service/product.service";
 import { CartProduct, Product } from "@/models/Product";
 import { checkout } from "@/client-api-service/checkout.services";
 import { useNavigate } from "react-router";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Cart() {
   const { cart, removeFromCart, updateQuantity, clearCart, open, setOpen } = useCart();
+  const { user } = useAuth();
   const [product, setProducts] = useState<CartProduct[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -176,6 +178,7 @@ export default function Cart() {
                     </p>
                     <div className="mt-6">
                       <button
+                        disabled={cart.length === 0 || !user}
                         onClick={handleCheckout}
                         className="w-full flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700"
                       >
