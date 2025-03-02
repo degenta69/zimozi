@@ -12,7 +12,7 @@ import { UserRoles } from "../types/enum";
 const UserRouter = express.Router();
 
 UserRouter.post("/", authenticate, authorize([UserRoles.ADMIN]), CreateUserController);
-UserRouter.get("/", GetUsersController);
+UserRouter.get("/", authenticate, authorize([UserRoles.ADMIN]), GetUsersController);
 
 UserRouter.get("/:id", authenticate, GetUserByIdController);
 
