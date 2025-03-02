@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ProductPage from "@/components/product/ProductDetails";
 import { getAllProducts, getProductById } from "@/client-api-service/product.service";
 import { Product } from "@/models/Product";
+import ProductCard from "@/components/product/ProductCard";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -61,19 +62,7 @@ export default function ProductDetail() {
           <h3 className="text-xl font-semibold text-gray-900">Related Products</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-4">
             {relatedProducts.map((item) => (
-              <div
-                key={item.uid}
-                onClick={() => nav(`/products/${item.uid}`)}
-                className="border p-4 rounded-lg"
-              >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-40 object-cover rounded-md"
-                />
-                <h4 className="mt-2 font-semibold text-gray-800">{item.title}</h4>
-                <p className="text-sm text-gray-600">${item.price}</p>
-              </div>
+              <ProductCard key={item.uid} product={item} />
             ))}
           </div>
         </div>
