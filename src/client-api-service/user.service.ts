@@ -13,7 +13,7 @@ export const updateUser = async (uid: string, updates: Partial<User>) => {
   return data;
 };
 export const getUsers = async () => {
-  const response = await ApiService.get(`/`);
+  const response = await ApiService.get(`/user`);
   return response.data;
 };
 
