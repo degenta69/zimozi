@@ -66,13 +66,10 @@ export default function AdminProductList() {
         <div className="grid grid-cols-4 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
             <div key={product.uid} className="relative group">
-              <div className="absolute top-2 right-2 hidden group-hover:flex items-center gap-2">
+              <div className="absolute top-2 right-2 hidden group-hover:flex items-center gap-2 z-10">
                 <button
                   className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(product.uid);
-                  }}
+                  onClick={() => handleDelete(product.uid)}
                 >
                   <TrashIcon className="w-5 h-5" />
                 </button>
