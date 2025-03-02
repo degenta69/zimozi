@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createUser,
   deleteUser,
+  getUserByEmail,
   getUserById,
   getUsers,
   updateUser,
@@ -18,6 +19,10 @@ export const CreateUserController = async (req: Request, res: Response): Promise
       age,
       role: UserRoles.USER,
     };
+    const userByEmail = await getUserByEmail(email);
+    if (userByEmail) {
+      throw new Error("User with this email already exists");
+    }
     const newUser = await createUser(user);
     res.status(201).json(newUser);
   } catch (error: any) {

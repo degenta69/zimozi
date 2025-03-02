@@ -7,7 +7,7 @@ import { getAuth as getAdminAuth } from "firebase-admin/auth";
 
 var serviceAccount = process.env.VITE_FIREBASE_SERVICE_ACCOUNT
   ? JSON.parse(process.env.VITE_FIREBASE_SERVICE_ACCOUNT)
-  : require(process.env.PATH_TO_FIREBASE_SERVICE_JSON!);
+  : require("/Users/dipansh_vivo/personal/zimozi-b21dc-firebase-adminsdk-fbsvc-36feb561b0.json");
 
 // Initialize Firebase (replace with your config)
 // Firebase Config (From Firebase Console)

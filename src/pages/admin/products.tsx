@@ -9,6 +9,8 @@ import LoadMoreButton from "@/components/ui/LoadMoreButton";
 import ProductForm from "@/components/product/ProductForm";
 import { TrashIcon, PlusIcon } from "@heroicons/react/24/outline";
 import ProductCard from "@/components/product/ProductCard";
+import { useProtectHook } from "@/utils/useProtectHook";
+import { useAuth } from "@/context/AuthContext";
 
 const categories = ["All", "electronics", "men's clothing", "women's clothing", "jewelery"];
 const priceRanges = [
@@ -25,6 +27,9 @@ export default function AdminProductList() {
   const [selectedPrice, setSelectedPrice] = useState(priceRanges[0]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const { user } = useAuth();
+  useProtectHook(user);
 
   useEffect(() => {
     const fetchProducts = async () => {

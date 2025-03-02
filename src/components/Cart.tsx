@@ -180,7 +180,7 @@ export default function Cart() {
                       <button
                         disabled={cart.length === 0 || !user}
                         onClick={handleCheckout}
-                        className="w-full flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700"
+                        className="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600 w-full flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700"
                       >
                         Checkout
                       </button>
@@ -190,7 +190,10 @@ export default function Cart() {
                         or{" "}
                         <button
                           type="button"
-                          onClick={() => setOpen(false)}
+                          onClick={() => {
+                            setOpen(false);
+                            // nav("/products");
+                          }}
                           className="font-medium text-indigo-600 hover:text-indigo-500"
                         >
                           Continue Shopping

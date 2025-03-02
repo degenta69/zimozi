@@ -2,6 +2,7 @@
 
 import { User } from "@/models/User";
 import ApiService from "./axios.service";
+import { UserRoles } from "@/typings/enum";
 
 export const getUserById = async (uid: string) => {
   const { data } = await ApiService.get(`/user/${uid}`);
@@ -20,7 +21,7 @@ export const getUsers = async () => {
 export const updateUserRole = async (userId: any, isAdmin: any) => {
   const response = await ApiService.put(
     `/user/${userId}`,
-    { role: isAdmin ? "USER" : "ADMIN" },
+    { role: isAdmin ? UserRoles.USER : UserRoles.ADMIN },
     { withCredentials: true }
   );
   return response.data;

@@ -11,7 +11,7 @@ import checkoutRoutes from "./routes/checkout.routes";
 
 const app: Application = express();
 
-const allowedOrigins = ["https://zimozi-b21dc.web.app"]; // Add more if needed
+const allowedOrigins = ["https://zimozi-b21dc.web.app", "http://localhost:9000"]; // Add more if needed
 
 app.use(
   cors({
@@ -24,6 +24,7 @@ app.use(
 
 app.options("*", (req, res) => {
   res.header("Access-Control-Allow-Origin", "https://zimozi-b21dc.web.app");
+  res.header("Access-Control-Allow-Origin", "http://localhost:9000");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");

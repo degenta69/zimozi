@@ -12,9 +12,10 @@ import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/outl
 import { useNavigate } from "react-router";
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
+import { UserRoles } from "@/typings/enum";
 
 const navigation = [
-  { name: "Home", href: "/", current: true },
+  { name: "Admin", href: "/", current: true, onlyAdmin: true },
   { name: "Products", href: "/products", current: false },
   { name: "Orders", href: "/orders", current: false },
 ];
@@ -49,20 +50,23 @@ export default function TopBar() {
                 />
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        onClick={() => nav(item.href)}
-                        className={classNames(
-                          item.href === currentPage
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium cursor-pointer"
-                        )}
-                      >
-                        {item.name}
-                      </a>
-                    ))}
+                    {navigation.map(
+                      (item) =>
+                        (item.onlyAdmin ? user?.role === UserRoles.ADMIN : true) && (
+                          <a
+                            key={item.name}
+                            onClick={() => nav(item.href)}
+                            className={classNames(
+                              item.href === currentPage
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                              "rounded-md px-3 py-2 text-sm font-medium cursor-pointer"
+                            )}
+                          >
+                            {item.name}
+                          </a>
+                        )
+                    )}
                   </div>
                 </div>
               </div>

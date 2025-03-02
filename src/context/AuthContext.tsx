@@ -5,7 +5,9 @@ import {
   registerUser,
   verifyUserToken,
 } from "@/client-api-service/auth.service";
+import { updateUser as updateUserApi } from "@/client-api-service/user.service";
 import { auth } from "@/firebase-client-config";
+import { User } from "@/models/User";
 import { UserRoles } from "@/typings/enum";
 import {
   GoogleAuthProvider,
@@ -14,6 +16,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 interface AuthContextType {
   handleLogin: (e: React.FormEvent, email: string, password: string) => Promise<void>;
@@ -25,6 +28,7 @@ interface AuthContextType {
   // role: string;
   // setRole: (role: string) => void;
   handleLogout: () => void;
+  updateUser: (uid: string, updates: Partial<User>) => Promise<any>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -35,6 +39,7 @@ export const AuthContext = createContext<AuthContextType>({
   user: null,
   error: null,
   setError: () => {},
+  updateUser: async () => {},
   // role: "user",
   // setRole: () => {},
 });
@@ -42,6 +47,7 @@ export const AuthContext = createContext<AuthContextType>({
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+  const nav = useNavigate();
   // const [role, setRole] = useState("user");
 
   const getUser = async () => {
@@ -67,6 +73,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem("token", token);
       console.log("User Logged In:", some);
       await getUser();
+      nav("/products");
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed");
     }
@@ -79,6 +86,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem("token", data.token);
       console.log("User Registered:", data);
       await getUser();
+      nav("/products");
     } catch (err: any) {
       setError(err.response?.data?.message || "Registration failed");
     }
@@ -94,6 +102,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem("token", data.token);
       console.log("Google Login Success:", data);
       await getUser();
+      nav("/products");
     } catch (err: any) {
       setError(err.response?.data?.message || "Google login failed");
     }
@@ -118,7 +127,20 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem("token");
     setUser(null);
     setError(null);
+    nav("/");
     window.location.reload();
+  };
+
+  const updateUser = async (uid: string, updates: Partial<User>) => {
+    try {
+      const response = await updateUserApi(uid, updates);
+      setUser({
+        ...user,
+        ...response,
+      });
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
   };
 
   useEffect(() => {
@@ -158,6 +180,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         handleGoogleLogin,
         handleLogout,
         user,
+        updateUser,
         error,
         setError,
         // role,

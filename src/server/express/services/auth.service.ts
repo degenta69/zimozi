@@ -58,7 +58,7 @@ export class AuthService {
         uid: userRecord.uid,
         email: userRecord.email,
         name: userRecord.displayName,
-        role: (userRecord.customClaims?.role as UserRoles) || UserRoles.USER,
+        // role: (userRecord.customClaims?.role as UserRoles) || UserRoles.USER,
       };
     } catch (error) {
       throw new Error("User not found");

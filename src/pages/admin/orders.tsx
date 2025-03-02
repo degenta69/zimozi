@@ -3,11 +3,15 @@ import { getAllOrders } from "@/client-api-service/order.service";
 import { EnrichOrder } from "@/models/Order";
 import OrderList from "@/components/order/OrderList";
 import Header from "@/components/ui/Header";
+import { useAuth } from "@/context/AuthContext";
+import { useProtectHook } from "@/utils/useProtectHook";
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<EnrichOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
+  useProtectHook(user);
 
   useEffect(() => {
     const fetchOrders = async () => {

@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthService } from "../services/auth.service";
 import { UserRoles } from "../types/enum";
-import { auth } from "../config/firebase";
+// import { auth } from "../config/firebase";
+import { checkUserRole } from "../services/user.service";
 
 // Extend Express Request to include `user`
 interface AuthenticatedRequest extends Request {
@@ -31,16 +32,10 @@ export const authenticate = async (
     const decodedUser = await AuthService.verifyToken(token);
     // console.log("Decoded user:", decodedUser);
 
-    // Fetch custom claims to get role (Firebase Admin SDK should set these)
-    // console.log("Fetching user record...");
-    const userRecord = await AuthService.getUser(decodedUser.uid);
-    // console.log("User record:", userRecord);
-
-    AuthService.assignRole(decodedUser.uid, userRecord.role || UserRoles.USER);
     req.user = {
       uid: decodedUser.uid,
       email: decodedUser.email,
-      role: userRecord.role || UserRoles.USER, // Default role is 'USER'
+      // role: userRecord.role || UserRoles.USER, // Default role is 'USER'
     };
 
     // console.log("User authenticated:", req.user);
@@ -57,10 +52,9 @@ export const authorize =
     if (!req.user) return res.status(401).json({ message: "Unauthorized" });
 
     try {
-      const user = await auth.getUser(req.user.uid);
-      const role = user.customClaims?.role || UserRoles.USER; // Default to 'user'
+      const isAuthorized = await checkUserRole(req.user.uid, allowedRoles);
 
-      if (!allowedRoles.includes(role)) {
+      if (!isAuthorized) {
         return res.status(403).json({ message: "Forbidden" });
       }
 
@@ -79,7 +73,6 @@ export const authorizeForSelfOnly = async (
   if (!req.user) return res.status(401).json({ message: "Unauthorized not authorized" });
   let userid = req.user.uid;
 
-  // console.log("User id:", userid, "Request user id:", req.user.uid);
   if (!userid) return res.status(400).json({ message: "User id is required" });
   if (userid && req.user.uid !== userid && req.user.role !== UserRoles.ADMIN)
     return res.status(403).json({ message: "Forbidden" });

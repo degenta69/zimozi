@@ -1,4 +1,5 @@
-import { db } from "../config/firebase";
+import { User } from "@/models/User";
+import { auth, db } from "../config/firebase";
 // import User from "../../../models/User";
 import { UserRoles } from "../types/enum";
 
@@ -9,15 +10,31 @@ export const createUser = async (userData: { email: string; name: string }) => {
   return { id: docRef.id, ...userData };
 };
 
+export const getUserByEmail = async (email: string) => {
+  const querySnapshot = await usersCollection.where("email", "==", email).get();
+  if (querySnapshot.empty) return null;
+  return querySnapshot.docs[0].data();
+};
+
 export const getUserById = async (id: string) => {
   const doc = await usersCollection.doc(id).get();
   if (!doc.exists) return null;
-  return { id: doc.id, ...doc.data() };
+  return { uid: doc.id, ...doc.data() };
 };
 
-export const updateUser = async (id: string, updatedData: any) => {
+export const updateUser = async (id: string, updatedData: Partial<User>) => {
   await usersCollection.doc(id).update(updatedData);
+  // if (updatedData.role) {
+  //   await auth.getUserByEmail(updatedData.email!);
+  // }
+  await auth.updateUser(id, updatedData);
   return { id, ...updatedData };
+};
+
+export const checkUserRole = async (id: string, role: UserRoles[]) => {
+  const doc = await usersCollection.doc(id).get();
+  if (!doc.exists) return false;
+  return role.includes(doc.data()?.role || UserRoles.USER);
 };
 
 export const deleteUser = async (id: string) => {
@@ -29,11 +46,11 @@ export const deleteUser = async (id: string) => {
 };
 
 export const getUsers = async () => {
-  console.log("Getting all users...");
+  // console.log("Getting all users...");
   const snapshot = await usersCollection.get();
-  console.log(`Found ${snapshot.size} users.`);
+  // console.log(`Found ${snapshot.size} users.`);
   const users = snapshot.docs.map((doc) => ({ uid: doc.id, ...doc.data() }));
-  console.log("Returning users:");
-  console.log(users);
+  // console.log("Returning users:");
+  // console.log(users);
   return users;
 };

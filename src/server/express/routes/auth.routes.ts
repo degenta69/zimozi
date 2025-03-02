@@ -59,7 +59,7 @@ router.post("/google-login", async (req: Request, res: Response): Promise<any> =
 // Get Authenticated User Details
 router.get("/me", authenticate, async (req: any, res) => {
   try {
-    const user = await AuthService.getUser(req.user.uid);
+    const user = await getUserById(req.user.uid);
     res.json(user);
   } catch (error: any) {
     res.status(400).json({ message: error.message });

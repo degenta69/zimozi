@@ -3,11 +3,11 @@ import { useAuth } from "@/context/AuthContext";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import InputComponent from "@/components/ui/Input";
-import { updateUser } from "@/client-api-service/user.service";
+// import { updateUser } from "@/client-api-service/user.service";
 import { Navigate } from "react-router";
 
 export default function ProfilePage() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
     name: "",
