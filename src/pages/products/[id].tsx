@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useLoading } from "@/context/LodingContext";
 import ProductPage from "@/components/product/ProductDetails";
 import { getAllProducts, getProductById } from "@/client-api-service/product.service";
 import { Product } from "@/models/Product";
@@ -9,15 +10,14 @@ export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
-  // const [nextCursor, setNextCursor] = useState();
-  const [loading, setLoading] = useState(true);
+  const { setLoading } = useLoading();
   const nav = useNavigate();
 
   useEffect(() => {
     async function fetchProduct(id: string) {
+      setLoading(true);
       try {
         const response = await getProductById(id);
-        console.log(response);
         setProduct(response);
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -33,11 +33,10 @@ export default function ProductDetail() {
 
   useEffect(() => {
     async function fetchRelatedProduct(product: Product) {
+      setLoading(true);
       try {
         const allProducts = await getAllProducts(undefined, product.category);
-        // const selectedProduct = allProducts.find((p: { id: number }) => p.id === Number(id));
         setRelatedProducts(allProducts.products);
-        // setNextCursor(allProducts.nextCursor);
         console.log(allProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -49,7 +48,6 @@ export default function ProductDetail() {
     if (product) fetchRelatedProduct(product);
   }, [product]);
 
-  if (loading) return <p>Loading...</p>;
   if (!product) return <p>Product not found</p>;
 
   return (

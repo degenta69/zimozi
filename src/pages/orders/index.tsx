@@ -1,21 +1,22 @@
-import { useEffect, useState } from "react";
+import { useLoading } from "@/context/LodingContext";
 import { getMyOrders } from "@/client-api-service/order.service";
 import { EnrichOrder } from "@/models/Order";
 import OrderList from "@/components/order/OrderList";
 import { useAuth } from "@/context/AuthContext";
+import { useEffect, useState } from "react";
 
 export default function OrdersPage() {
+  const { loading, setLoading } = useLoading();
   const [orders, setOrders] = useState<EnrichOrder[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
 
   useEffect(() => {
     if (!user) {
-      setLoading(false);
       return;
     }
     const fetchOrders = async () => {
+      setLoading(true);
       try {
         const data = await getMyOrders();
         setOrders(
@@ -31,7 +32,7 @@ export default function OrdersPage() {
       }
     };
     fetchOrders();
-  }, []);
+  }, [user]);
 
   return (
     <div className="max-w-4xl mx-auto p-6">

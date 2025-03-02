@@ -8,6 +8,7 @@ import {
   clearCart,
 } from "@/client-api-service/cart.service";
 import { CartItem } from "@/models/Cart";
+import { useLoading } from "./LodingContext";
 
 interface CartContextType {
   cart: CartItem[];
@@ -25,15 +26,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
   const [cart, setCart] = useState<CartItem[]>([]);
+  const { setLoading } = useLoading();
 
   useEffect(() => {
     const loadCart = async () => {
       if (user) {
         try {
+          setLoading(true);
           const response = await getCart(user.uid);
           setCart(response?.items || []);
         } catch (error) {
           console.error("Failed to fetch cart from DB:", error);
+        } finally {
+          setLoading(false);
         }
       } else {
         try {
@@ -48,7 +53,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
     };
     loadCart();
-  }, [user]);
+  }, [user?.uid]);
 
   useEffect(() => {
     if (!user && cart.length > 0) {
@@ -59,11 +64,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addToCartHandler = async (productId: string, quantity: number) => {
     if (user) {
       try {
+        setLoading(true);
         await addToCart(productId, quantity);
         const response = await getCart(user.uid);
         setCart(response?.items || []);
       } catch (error) {
         console.error("Error adding to cart:", error);
+      } finally {
+        setLoading(false);
       }
     } else {
       setCart((prevCart) => {
@@ -81,11 +89,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const removeFromCartHandler = async (productId: string) => {
     if (user) {
       try {
+        setLoading(true);
         await removeCartItem(productId);
         const response = await getCart(user.uid);
         setCart(response?.items || []);
       } catch (error) {
         console.error("Error removing from cart:", error);
+      } finally {
+        setLoading(false);
       }
     } else {
       setCart((prevCart) => prevCart.filter((item) => item.productId !== productId));
@@ -95,11 +106,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const updateQuantityHandler = async (productId: string, quantity: number) => {
     if (user) {
       try {
+        setLoading(true);
         await updateCartItem(productId, quantity);
         const response = await getCart(user.uid);
         setCart(response?.items || []);
       } catch (error) {
         console.error("Error updating cart:", error);
+      } finally {
+        setLoading(false);
       }
     } else {
       setCart((prevCart) =>
@@ -111,10 +125,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const clearCartHandler = async () => {
     if (user) {
       try {
+        setLoading(true);
         await clearCart();
         setCart([]);
       } catch (error) {
         console.error("Error clearing cart:", error);
+      } finally {
+        setLoading(false);
       }
     } else {
       setCart([]);

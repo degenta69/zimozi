@@ -1,12 +1,11 @@
 import { getAllProducts } from "@/client-api-service/product.service";
 import { useEffect, useState } from "react";
-// import ProductCard from "@/components/ProductCard";
-// import Dropdown from "@/components/Dropdown";
 import Header from "@/components/ui/Header";
 import Filters from "@/components/ui/Filters";
 import ProductList from "@/components/product/ProductList";
 import LoadMoreButton from "@/components/ui/LoadMoreButton";
 import { Product } from "@/models/Product";
+import { useLoading } from "@/context/LodingContext";
 
 const categories = ["All", "electronics", "men's clothing", "women's clothing", "jewelery"];
 const priceRanges = [
@@ -21,17 +20,23 @@ export default function Dashboard() {
   const [nextCursor, setNextCursor] = useState<undefined | string>(undefined);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedPrice, setSelectedPrice] = useState(priceRanges[0]);
+  const { setLoading } = useLoading();
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const { products } = await getAllProducts(
-        undefined,
-        selectedCategory !== "All" ? selectedCategory : undefined,
-        selectedPrice.min,
-        selectedPrice.max
-      );
-      setProducts(products);
-      setNextCursor(products.length > 0 ? products[products.length - 1].uid : null);
+      setLoading(true);
+      try {
+        const { products } = await getAllProducts(
+          undefined,
+          selectedCategory !== "All" ? selectedCategory : undefined,
+          selectedPrice.min,
+          selectedPrice.max
+        );
+        setProducts(products);
+        setNextCursor(products.length > 0 ? products[products.length - 1].uid : null);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchProducts();
   }, [selectedCategory, selectedPrice]);
