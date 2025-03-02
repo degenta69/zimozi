@@ -1,7 +1,6 @@
-import packageJSON from "../../../package.json";
+// import packageJSON from "../../../package.json";
 import express, { Application } from "express";
 import cors from "cors";
-import { Request, Response } from "express";
 import { db } from "./config/firebase";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
@@ -33,16 +32,6 @@ app.get("/api/v1/health", (req, res) => {
     .then((docRef) => docRef);
   res.send({ status: "ok", result });
 });
-
-app.get(`/api/v1/version`, (req: Request, res: Response) => {
-  const respObj: RespExampleType = {
-    id: 1,
-    version: packageJSON.version,
-    envVal: process.env.ENV_VALUE as string, // sample server-side env value
-  };
-  res.send(respObj);
-});
-
 // app.use(express.static("./.local/vite/dist"));
 
 export default app;
