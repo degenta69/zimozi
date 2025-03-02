@@ -1,102 +1,172 @@
-# Boilerplate for React / Express app written in TS
+# E-Commerce Platform
 
-## Description
+This project is a minimal e-commerce platform built using **Node.js (Express), TypeScript, Firebase Authentication, and Firestore/PostgreSQL**. The frontend is built with **React 19 (Next.js/Vite) and TailwindCSS**. It supports user authentication, product management, shopping cart functionality, and order processing.
 
-This is a web application boilerplate that integrates React, Vite, Express, and TypeScript. This setup provides a robust development environment with hot module replacement for the frontend and an efficient build system for both frontend and backend.
+You can access the deployed version of this application at [this hosted link](https://zimozi-b21dc.web.app).
 
-## Features
+## Table of Contents
 
-- React for building user interfaces.
-- Vite (with swc) for an ultra-fast frontend development experience.
-  - Includes css modules
-- Vite for front-end builds
-- Express for API endpoints
-- TypeScript for adding type safety to JavaScript.
-- vscode debugging for frontend / backend
-- Esbuild for efficient backend builds.
-- Proxying of api endpoints through Vite environment during development
-- Common typings between frontend and backend
-- esLint with rules from recent projects
-- prettier with the standard rules
-- Jest testing setup with one example test file
-- File-based routing (`/src/pages` for all routes)
-- `/src/public` for static assets
-- Docker deployment working
-  - Only `prod` setup for now
+- [Project Structure](#project-structure)
+- [Tech Stack](#tech-stack)
+- [Setup Instructions](#setup-instructions)
+- [Running the Project](#running-the-project)
+- [API Testing](#api-testing)
+- [Deployment](#deployment)
+- [Architecture Overview](#architecture-overview)
 
-### Notes
+---
 
-- Express .env reference is the typical `process.env.VALUE`
-- Client-side (build time by Vite) .env reference is `import.meta.env.VALUE`
+## Project Structure
 
-### TODO:
+```
+.
+├── src
+│   ├── client-api-service  # API service for frontend
+│   ├── components          # Reusable UI components
+│   ├── context             # Global state management (Auth, Cart)
+│   ├── models              # TypeScript models for data types
+│   ├── pages               # Next.js pages for different views
+│   ├── server              # Backend (Express API, Routes, Controllers, Services)
+│   ├── styles              # Global styles and Tailwind config
+│   ├── tests               # Unit and integration tests
+│   ├── typings             # TypeScript types
+│   ├── utils               # Helper functions
+│   ├── firebase-client-config.ts  # Firebase frontend config
+│   ├── index.tsx           # Entry point for the frontend
+├── package.json            # Dependencies and scripts
+├── tsconfig.json           # TypeScript configuration
+├── vite.config.mts         # Vite configuration
+├── firebase.json           # Firebase deployment config
+├── README.md               # Documentation
+```
 
-- Did them all!
+---
 
-## Installation
+## Tech Stack
 
-1. To get started, clone the repository and install the dependencies:
+### **Frontend**
 
-   ```bash
-   git clone https://github.com/bfeist/vite-express-ts.git
-   cd vite-express-ts
-   npm install
-   ```
+- React 19 (Next.js/Vite)
+- TypeScript
+- TailwindCSS
+- React Query / Axios
+- Redux / Zustand / Context API
 
-2. Then create a `.env` file by copying `.env.sample` to `.env`
-3. Run `/scripts/make-dev-ssl-cert.sh` (used for docker deploys only)
+### **Backend**
 
-## Usage
+- Node.js (Express)
+- TypeScript
+- Firebase Admin SDK
+- Firestore / PostgreSQL
 
-### Development
+### **Authentication & Deployment**
 
-To start both the frontend and backend in development mode, run:
+- Firebase Authentication (Email/Google Sign-In)
+- Firebase Functions (Backend)
+- Vercel / Netlify / Firebase Hosting (Frontend)
 
-```bash
+---
+
+## Setup Instructions
+
+### Prerequisites
+
+- Node.js (v18 or later)
+- Firebase CLI (for deployment)
+- PostgreSQL (if using relational DB instead of Firestore)
+
+### Installation
+
+```sh
+git clone https://github.com/yourusername/your-repo.git
+cd your-repo
+npm install
+```
+
+### Environment Variables
+
+Create a `.env` file in the root directory and add the required values:
+
+```env
+VITE_API_BASE_URL_LOCAL=http://localhost:9001
+VITE_API_BASE_URL_LIVE=https://your-backend-url.com
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+```
+
+---
+
+## Running the Project
+
+### **Frontend**
+
+```sh
 npm run dev
 ```
 
-This will start the Vite development server for the frontend and the Express server for the backend concurrently.
+This starts the frontend on `http://localhost:5173`.
 
-Available at `http://localhost:5100`
+### **Backend**
 
-### Build
-
-To build the application for production:
-
-```bash
-npm run build
+```sh
+npm run api:dev
 ```
 
-This script builds both the frontend and backend parts of the application. The result is put in `.local/vite/dist`and `.local/express/dist` respectively.
+This starts the Express server on `http://localhost:9001`.
 
-### Start Production Server
+---
 
-After building, start the production server with:
+## API Testing
 
-```bash
-npm run start
+- Import the provided **Postman collection** (`postman_collection.json`) to test API endpoints.
+- Ensure `withCredentials: true` is enabled in API requests.
+
+---
+
+## Deployment
+
+### **Backend (Firebase Functions)**
+
+```sh
+firebase deploy --only functions
 ```
 
-This runs a simple `node ./.local/express/dist/api.js` command to start the express server that serves the `/api/v1` endpoints.
+### **Frontend (Vercel/Firebase Hosting)**
 
-### Deploy via Docker
+```sh
+npm run vite:deploy
+```
 
-- `npm run docker:preview:rebuild`
-  - Builds two docker images:
-    - `nginx`
-      - vite is used to build the front-end (React) to static assets in `/.local/vite/dist`
-      - these are copied into the nginx image at the default nginx path
-      - `/api/v1/` routes are proxied to the `express` server
-    - `express`
-      - esbuild is used to build to a static file `/.local/express/dist/api.js`
-      - this file is copied to a node container and run with `node /api.js`
-- `npm run docker:preview` to start the containers
-- Go to `https://localhost` to hit the nginx server
+---
 
-## Structure
+## Architecture Overview
 
-- `src/`: Contains the source code for the React frontend.
-- `src/server/`: Contains the source code for the Express backend.
-- `.local/vite/dist`: Destination for the built frontend files.
-- `.local/express/dist`: Destination for the built backend server files.
+### **1. Authentication**
+
+- Uses Firebase Authentication (Email/Google Sign-In).
+- Session persistence enabled for better UX.
+
+### **2. Role-Based Access Control (RBAC)**
+
+- Admin users can manage products, orders, and users.
+- Regular users can browse products, add to cart, and place orders.
+
+### **3. Backend (Express API)**
+
+- Modular structure with controllers, services, and middlewares.
+- Uses Firebase Admin SDK for authentication and Firestore/PostgreSQL for data storage.
+- API follows RESTful conventions.
+
+### **4. Frontend (React + Vite/Next.js)**
+
+- Component-based design for reusability.
+- Uses Zustand/Context API for state management.
+- Optimized for performance with lazy loading and React Query.
+
+### **5. Database Choices**
+
+- Firestore (NoSQL, serverless, real-time sync) or PostgreSQL (relational, structured data).
+- Database choice depends on use case.
+
+---
+
+This should provide all the necessary details for setting up, running, and submitting the project. Let me know if any refinements are needed!

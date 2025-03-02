@@ -1,0 +1,123 @@
+.
+├── README.md
+├── dist
+│   └── index.html
+├── esbuild.mjs
+├── eslint.config.mjs
+├── firebase.json
+├── package-lock.json
+├── package.json
+├── scripts
+│   └── make-dev-ssl-cert.sh
+├── src
+│   ├── App.tsx
+│   ├── client-api-service
+│   │   ├── auth.service.ts
+│   │   ├── axios.service.ts
+│   │   ├── cart.service.ts
+│   │   ├── checkout.services.ts
+│   │   ├── order.service.ts
+│   │   ├── product.service.ts
+│   │   └── user.service.ts
+│   ├── components
+│   │   ├── Cart.tsx
+│   │   ├── ProtectedRoute.tsx
+│   │   ├── TopBar.tsx
+│   │   ├── order
+│   │   │   ├── OrderCard.tsx
+│   │   │   └── OrderList.tsx
+│   │   ├── product
+│   │   │   ├── ProductCard.tsx
+│   │   │   ├── ProductDetails.tsx
+│   │   │   ├── ProductForm.tsx
+│   │   │   └── ProductList.tsx
+│   │   ├── ui
+│   │   │   ├── Dropdown.tsx
+│   │   │   ├── Filters.tsx
+│   │   │   ├── Header.tsx
+│   │   │   ├── Input.tsx
+│   │   │   └── LoadMoreButton.tsx
+│   │   └── user
+│   │       ├── RegistrationForm.tsx
+│   │       └── UserManagement.tsx
+│   ├── context
+│   │   ├── AuthContext.tsx
+│   │   └── CartContext.tsx
+│   ├── firebase-client-config.ts
+│   ├── index.html
+│   ├── index.tsx
+│   ├── models
+│   │   ├── Cart.ts
+│   │   ├── Order.ts
+│   │   ├── Product.ts
+│   │   └── User.ts
+│   ├── pages
+│   │   ├── admin
+│   │   │   ├── orders.tsx
+│   │   │   ├── products.tsx
+│   │   │   └── users.tsx
+│   │   ├── index.module.css
+│   │   ├── index.tsx
+│   │   ├── login
+│   │   │   └── index.tsx
+│   │   ├── orders
+│   │   │   └── index.tsx
+│   │   ├── products
+│   │   │   ├── [id].tsx
+│   │   │   ├── add.tsx
+│   │   │   ├── index.tsx
+│   │   │   └── seed.tsx
+│   │   └── profile
+│   │       └── index.tsx
+│   ├── public
+│   │   └── images
+│   │       └── nasa-logo.svg
+│   ├── server
+│   │   └── express
+│   │       ├── config
+│   │       │   └── firebase.ts
+│   │       ├── controllers
+│   │       │   ├── CartControllers.ts
+│   │       │   ├── ProductControllers.ts
+│   │       │   └── UserControllers.ts
+│   │       ├── middlewares
+│   │       │   ├── auth.middleware.ts
+│   │       │   └── product.validate.middleware.ts
+│   │       ├── restApi.ts
+│   │       ├── routes
+│   │       │   ├── auth.routes.ts
+│   │       │   ├── cart.routes.ts
+│   │       │   ├── checkout.routes.ts
+│   │       │   ├── order.routes.ts
+│   │       │   ├── product.routes.ts
+│   │       │   └── user.routes.ts
+│   │       ├── server.ts
+│   │       ├── services
+│   │       │   ├── auth.service.ts
+│   │       │   ├── cart.service.ts
+│   │       │   ├── checkout.service.ts
+│   │       │   ├── order.service.ts
+│   │       │   ├── product.service.ts
+│   │       │   └── user.service.ts
+│   │       └── types
+│   │           ├── enum.ts
+│   │           └── types.ts
+│   ├── styles
+│   │   └── global.css
+│   ├── tests
+│   │   └── sample.test.tsx
+│   ├── typings
+│   │   ├── enum.ts
+│   │   ├── global.d.ts
+│   │   ├── types.d.ts
+│   │   └── vite-env.d.ts
+│   └── utils
+│       ├── jest-extends.ts
+│       └── utils.ts
+├── tailwind.config.js
+├── tree.txt
+├── tsconfig.jest.json
+├── tsconfig.json
+└── vite.config.mts
+
+6098 directories, 37963 files

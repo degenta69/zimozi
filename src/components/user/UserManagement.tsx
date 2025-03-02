@@ -38,21 +38,22 @@ const AdminUserManagement = () => {
 
   return (
     <div className="p-4 max-w-xl mx-auto">
-      <div className="space-y-4">
+      <ul className="space-y-4">
         {users.map((user) => (
-          <div key={user.uid} className="p-4 border rounded flex justify-between items-center">
-            <span>
+          <li key={user.uid} className="flex items-center justify-between px-4 py-2 border rounded">
+            <span className="font-semibold">
               {user.name} ({user.role})
+              <span className="block text-gray-500 text-xs">{user.email}</span>
             </span>
             <button
               onClick={() => handleRoleToggle(user.uid, user.role === "ADMIN")}
-              className={`px-3 py-1 rounded ${user.role === "ADMIN" ? "bg-red-500" : "bg-green-500"} text-white`}
+              className={`py-1 px-2 rounded ${user.role === "ADMIN" ? "bg-red-500" : "bg-green-500"} text-white`}
             >
               {user.role === "ADMIN" ? "Remove Admin" : "Make Admin"}
             </button>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
