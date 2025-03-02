@@ -27,3 +27,9 @@ export const deleteUser = async (id: string) => {
   await db.collection("orders").doc(id).delete();
   return { message: "User deleted successfully" };
 };
+
+export const getUsers = async () => {
+  const snapshot = await usersCollection.get();
+  const users = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return users;
+};

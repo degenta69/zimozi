@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const ApiService = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL_LOCAL,
+  baseURL: import.meta.env.VITE_API_BASE_URL_LIVE,
   headers: { "Content-Type": "application/json" },
 });
 

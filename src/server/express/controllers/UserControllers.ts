@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
-import { createUser, deleteUser, getUserById, updateUser } from "../services/user.service";
+import {
+  createUser,
+  deleteUser,
+  getUserById,
+  getUsers,
+  updateUser,
+} from "../services/user.service";
 import { UserRoles } from "../types/enum";
 
 export const CreateUserController = async (req: Request, res: Response): Promise<any> => {
@@ -41,6 +47,15 @@ export const DeleteUserController = async (req: Request, res: Response): Promise
   try {
     const result = await deleteUser(req.params.id);
     res.json(result);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const GetUsersController = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const users = await getUsers();
+    res.json(users);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

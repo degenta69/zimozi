@@ -3,17 +3,22 @@ import {
   CreateUserController,
   DeleteUserController,
   GetUserByIdController,
+  GetUsersController,
   UpdateUserController,
 } from "../controllers/UserControllers.js";
+import { authenticate, authorize, authorizeForSelfOnly } from "../middlewares/auth.middleware.js";
+import { UserRoles } from "../types/enum";
 
 const UserRouter = express.Router();
 
-UserRouter.post("/", CreateUserController);
+UserRouter.post("/", authenticate, authorize([UserRoles.ADMIN]), CreateUserController);
 
-UserRouter.get("/:id", GetUserByIdController);
+UserRouter.get("/:id", authenticate, GetUserByIdController);
 
-UserRouter.put("/:id", UpdateUserController);
+UserRouter.get("/list", authenticate, authorize([UserRoles.ADMIN]), GetUsersController);
 
-UserRouter.delete("/:id", DeleteUserController);
+UserRouter.put("/:id", authenticate, authorizeForSelfOnly, UpdateUserController);
+
+UserRouter.delete("/:id", authenticate, authorize([UserRoles.ADMIN]), DeleteUserController);
 
 export default UserRouter;

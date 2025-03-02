@@ -12,3 +12,16 @@ export const updateUser = async (uid: string, updates: Partial<User>) => {
   const { data } = await ApiService.put(`/user/${uid}`, updates);
   return data;
 };
+export const getUsers = async () => {
+  const response = await ApiService.get(`/user/list`, { withCredentials: true });
+  return response.data;
+};
+
+export const updateUserRole = async (userId: any, isAdmin: any) => {
+  const response = await ApiService.put(
+    `/user/${userId}`,
+    { role: isAdmin ? "USER" : "ADMIN" },
+    { withCredentials: true }
+  );
+  return response.data;
+};

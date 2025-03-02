@@ -46,7 +46,7 @@ export class AuthService {
       const decodedToken = await auth.verifyIdToken(idToken);
       return decodedToken;
     } catch (error) {
-      throw new Error("Invalid token");
+      throw error;
     }
   }
 

@@ -81,6 +81,7 @@ export const authorizeForSelfOnly = async (
 
   // console.log("User id:", userid, "Request user id:", req.user.uid);
   if (!userid) return res.status(400).json({ message: "User id is required" });
-  if (userid && req.user.uid !== userid) return res.status(403).json({ message: "Forbidden" });
+  if (userid && req.user.uid !== userid && req.user.role !== UserRoles.ADMIN)
+    return res.status(403).json({ message: "Forbidden" });
   next();
 };

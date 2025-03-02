@@ -1,7 +1,7 @@
 import axios from "axios";
 import ApiService from "./axios.service";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL_LOCAL; // Change based on your backend URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL_LIVE; // Change based on your backend URL
 
 export const registerUser = async (
   email: string,
