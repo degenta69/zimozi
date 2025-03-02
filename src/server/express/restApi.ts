@@ -11,7 +11,24 @@ import checkoutRoutes from "./routes/checkout.routes";
 
 const app: Application = express();
 
-app.use(cors({ origin: "*" }));
+const allowedOrigins = ["https://zimozi-b21dc.web.app"]; // Add more if needed
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true, // Required for cookies/session-based auth
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  })
+);
+
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "https://zimozi-b21dc.web.app");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.sendStatus(204);
+});
 
 app.use(express.json({ limit: "20mb" }));
 // app.use(cors());
